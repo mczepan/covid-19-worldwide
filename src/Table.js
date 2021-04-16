@@ -8,6 +8,7 @@ const Table = ({ countries }) => {
       {countries.map(({ country, cases, countryInfo }, index) => (
         <tr key={index}>
           <td>
+            <strong>{index + 1}. </strong>
             <FlagIcon code={countryInfo?.iso2?.toLowerCase()} />
             {country}
           </td>
