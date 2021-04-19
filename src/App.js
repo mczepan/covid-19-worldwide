@@ -24,6 +24,11 @@ function App() {
   ] = useState(null);
   const [tableData, setTableData] = useState([]);
 
+  const [mapCenter, setMapCenter] = useState([53.43, 14.57]);
+  const [mapZoom, setMapZoom] = useState(5);
+  const [mapCountries, setMapCountries] = useState([]);
+  const [fullMapCountries, setFullMapCountries] = useState([]);
+
   useEffect(() => {
     fetch('https://disease.sh/v3/covid-19/all')
       .then((response) => response.json())
@@ -45,9 +50,35 @@ function App() {
           const sortedData = sortData(data);
           setTableData(sortedData);
           setCountries(countries);
+          setMapCountries(data);
         });
     };
 
+    const getCountriesVaccinationData = async () => {
+      await fetch(
+        `https://disease.sh/v3/covid-19/vaccine/coverage/countries?` +
+          new URLSearchParams({
+            lastdays: 1,
+          })
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const fetchVacinnatedData = data.map((data) => ({
+            country: data.country,
+            vaccinated: data?.timeline[Object.keys(data.timeline)[0]],
+          }));
+
+          let fullMapCountries = mapCountries.map((country) => ({
+            ...country,
+            vaccinated: fetchVacinnatedData.find(
+              (data) => data.country === country.country
+            )?.vaccinated,
+          }));
+          setFullMapCountries(fullMapCountries);
+        });
+    };
+
+    getCountriesVaccinationData();
     getCountriesData();
   }, []);
 
@@ -63,6 +94,11 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         setSelectedCountry(countryCode);
+
+        countryCode === 'worldWide'
+          ? setMapCenter([53.43, 14.57])
+          : setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        setMapZoom(5);
         setSelectedCountryInfo(data);
       });
 
@@ -83,8 +119,6 @@ function App() {
   };
   return (
     <div className="app">
-      {/* {Header} */}
-      {/* {Title + Select input dropdown field} */}
       <div className="app__left">
         <div className="app__header">
           <h1>COVID-19 Tracker</h1>
@@ -133,9 +167,9 @@ function App() {
             />
           )}
         </div>
-
-        {/* {Map} */}
-        <Map />
+        {mapCountries && (
+          <Map countries={fullMapCountries} center={mapCenter} zoom={mapZoom} />
+        )}
       </div>
 
       <Card className="app__right">
