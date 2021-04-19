@@ -11,7 +11,7 @@ import InfoBox from './InfoBox';
 import Map from './Map';
 import Table from './Table';
 import LineGraph from './LineGraph';
-import { sortData } from './util';
+import { sortData, prettyPrintStat } from './util';
 import FlagIcon from './FlagIcon';
 
 function App() {
@@ -142,18 +142,18 @@ function App() {
         <div className="app__stats">
           <InfoBox
             title="Coronavirus Cases"
-            total={selectedCountryInfo.cases}
-            cases={selectedCountryInfo.todayCases}
+            total={prettyPrintStat(selectedCountryInfo.cases)}
+            cases={prettyPrintStat(selectedCountryInfo.todayCases)}
           />
           <InfoBox
             title="Recoveries"
-            total={selectedCountryInfo.recovered}
-            cases={selectedCountryInfo.todayRecovered}
+            total={prettyPrintStat(selectedCountryInfo.recovered)}
+            cases={prettyPrintStat(selectedCountryInfo.todayRecovered)}
           />
           <InfoBox
             title="Deaths"
-            total={selectedCountryInfo.deaths}
-            cases={selectedCountryInfo.todayDeaths}
+            total={prettyPrintStat(selectedCountryInfo.deaths)}
+            cases={prettyPrintStat(selectedCountryInfo.todayDeaths)}
           />
 
           {selectedCountryVaccinatedInfo?.country && (
