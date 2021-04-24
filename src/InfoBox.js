@@ -5,7 +5,7 @@ import { Card, CardContent, Typography } from '@material-ui/core';
 const InfoBox = ({ title, cases, isRed, total, active, ...props }) => {
   return (
     <Card
-      style={{ cursor: 'pointer' }}
+      style={{ cursor: title !== 'Vaccinated' ? 'pointer' : '' }}
       onClick={props.onClick}
       className={`infoBox ${active && 'infoBox--selected'} ${
         isRed && 'infoBox--red'

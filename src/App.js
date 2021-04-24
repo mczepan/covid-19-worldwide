@@ -108,7 +108,7 @@ function App() {
       await fetch(
         `https://disease.sh/v3/covid-19/vaccine/coverage/countries/${countryCode}?` +
           new URLSearchParams({
-            lastdays: 1,
+            lastdays: 2,
           })
       )
         .then((response) => response.json())
@@ -169,10 +169,20 @@ function App() {
           {selectedCountryVaccinatedInfo?.country && (
             <InfoBox
               title="Vaccinated"
-              total={
+              cases={prettyPrintStat(
                 selectedCountryVaccinatedInfo?.timeline[
-                  Object.keys(selectedCountryVaccinatedInfo.timeline)[0]
-                ] || null
+                  Object.keys(selectedCountryVaccinatedInfo.timeline)[1]
+                ] -
+                  selectedCountryVaccinatedInfo?.timeline[
+                    Object.keys(selectedCountryVaccinatedInfo.timeline)[0]
+                  ]
+              )}
+              total={
+                prettyPrintStat(
+                  selectedCountryVaccinatedInfo?.timeline[
+                    Object.keys(selectedCountryVaccinatedInfo.timeline)[0]
+                  ]
+                ) || null
               }
             />
           )}
