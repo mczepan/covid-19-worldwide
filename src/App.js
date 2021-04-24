@@ -13,6 +13,7 @@ import Table from './Table';
 import LineGraph from './LineGraph';
 import { sortData, prettyPrintStat } from './util';
 import FlagIcon from './FlagIcon';
+import Tooltip from '@material-ui/core/Tooltip';
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -30,6 +31,8 @@ function App() {
   const [fullMapCountries, setFullMapCountries] = useState([]);
 
   const [casesType, setCasesType] = useState('cases');
+
+  const [popupIsOpened, setPopupIsOpened] = useState(false);
 
   useEffect(() => {
     fetch('https://disease.sh/v3/covid-19/all')
@@ -97,7 +100,7 @@ function App() {
       .then((data) => {
         setSelectedCountry(countryCode);
 
-        countryCode === 'worldWide'
+        countryCode === 'worldwide'
           ? setMapCenter([53.43, 14.57])
           : setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
         setMapZoom(5);
@@ -125,19 +128,22 @@ function App() {
         <div className="app__header">
           <h1>COVID-19 Tracker</h1>
           <FormControl className="app__dropdown">
-            <Select
-              variant="outlined"
-              value={selectedCountry}
-              onChange={onCountryChange}
-            >
-              <MenuItem value={'worldwide'}>Worldwide</MenuItem>
-              {countries.map((country, index) => (
-                <MenuItem key={index} value={country.value}>
-                  <FlagIcon code={country.value?.toLowerCase()} />
-                  {country.name}
-                </MenuItem>
-              ))}
-            </Select>
+            <Tooltip title={popupIsOpened ? 'Close country popup first' : ''}>
+              <Select
+                disabled={popupIsOpened}
+                variant="outlined"
+                value={selectedCountry}
+                onChange={onCountryChange}
+              >
+                <MenuItem value={'worldwide'}>Worldwide</MenuItem>
+                {countries.map((country, index) => (
+                  <MenuItem key={index} value={country.value}>
+                    <FlagIcon code={country.value?.toLowerCase()} />
+                    {country.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Tooltip>
           </FormControl>
         </div>
 
@@ -191,6 +197,10 @@ function App() {
             center={mapCenter}
             zoom={mapZoom}
             casesType={casesType}
+            setMapCenter={setMapCenter}
+            setSelectedCountryInfo={setSelectedCountryInfo}
+            setSelectedCountry={setSelectedCountry}
+            setPopupIsOpened={setPopupIsOpened}
           />
         )}
       </div>

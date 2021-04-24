@@ -30,7 +30,14 @@ export const sortData = (data) => {
 export const prettyPrintStat = (stat) =>
   stat ? `+${numeral(stat).format('0.0a')}` : '+0';
 
-export const showDataOnMap = (data, casesType) =>
+export const showDataOnMap = (
+  data,
+  casesType,
+  setSelectedCountryInfo,
+  setSelectedCountry,
+  setPopupIsOpened,
+  setMapCenter
+) =>
   data.map((country) => (
     <Circle
       center={[country.countryInfo.lat, country.countryInfo.long]}
@@ -41,7 +48,15 @@ export const showDataOnMap = (data, casesType) =>
       }}
       radius={Math.sqrt(country[casesType]) * casesTypeColors[casesType].x}
     >
-      <Popup>
+      <Popup
+        onOpen={() => {
+          setPopupIsOpened(true);
+          setSelectedCountry(country.countryInfo.iso2);
+          setSelectedCountryInfo(country);
+          setMapCenter([country.countryInfo.lat, country.countryInfo.long]);
+        }}
+        onClose={() => setPopupIsOpened(false)}
+      >
         <div className="info-container">
           <div
             className="info-flag"
