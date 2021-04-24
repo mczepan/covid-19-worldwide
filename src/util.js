@@ -51,9 +51,9 @@ export const showDataOnMap = (
       <Popup
         onOpen={() => {
           setPopupIsOpened(true);
+          setMapCenter([country.countryInfo.lat, country.countryInfo.long]);
           setSelectedCountry(country.countryInfo.iso2);
           setSelectedCountryInfo(country);
-          setMapCenter([country.countryInfo.lat, country.countryInfo.long]);
         }}
         onClose={() => setPopupIsOpened(false)}
       >
