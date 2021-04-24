@@ -147,42 +147,40 @@ function App() {
             active={casesType === 'cases'}
             onClick={(e) => setCasesType('cases')}
             title="Coronavirus Cases"
-            total={prettyPrintStat(selectedCountryInfo.cases)}
-            cases={prettyPrintStat(selectedCountryInfo.todayCases)}
+            total={selectedCountryInfo.cases}
+            cases={selectedCountryInfo.todayCases}
           />
           <InfoBox
             active={casesType === 'recovered'}
             onClick={(e) => setCasesType('recovered')}
             title="Recoveries"
-            total={prettyPrintStat(selectedCountryInfo.recovered)}
-            cases={prettyPrintStat(selectedCountryInfo.todayRecovered)}
+            total={selectedCountryInfo.recovered}
+            cases={selectedCountryInfo.todayRecovered}
           />
           <InfoBox
             isRed
             active={casesType === 'deaths'}
             onClick={(e) => setCasesType('deaths')}
             title="Deaths"
-            total={prettyPrintStat(selectedCountryInfo.deaths)}
-            cases={prettyPrintStat(selectedCountryInfo.todayDeaths)}
+            total={selectedCountryInfo.deaths}
+            cases={selectedCountryInfo.todayDeaths}
           />
 
           {selectedCountryVaccinatedInfo?.country && (
             <InfoBox
               title="Vaccinated"
-              cases={prettyPrintStat(
+              cases={
                 selectedCountryVaccinatedInfo?.timeline[
                   Object.keys(selectedCountryVaccinatedInfo.timeline)[1]
                 ] -
-                  selectedCountryVaccinatedInfo?.timeline[
-                    Object.keys(selectedCountryVaccinatedInfo.timeline)[0]
-                  ]
-              )}
+                selectedCountryVaccinatedInfo?.timeline[
+                  Object.keys(selectedCountryVaccinatedInfo.timeline)[0]
+                ]
+              }
               total={
-                prettyPrintStat(
-                  selectedCountryVaccinatedInfo?.timeline[
-                    Object.keys(selectedCountryVaccinatedInfo.timeline)[0]
-                  ]
-                ) || null
+                selectedCountryVaccinatedInfo?.timeline[
+                  Object.keys(selectedCountryVaccinatedInfo.timeline)[0]
+                ] || null
               }
             />
           )}
