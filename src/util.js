@@ -38,8 +38,9 @@ export const showDataOnMap = (
   setPopupIsOpened,
   setMapCenter
 ) =>
-  data.map((country) => (
+  data.map((country, index) => (
     <Circle
+      key={index}
       center={[country.countryInfo.lat, country.countryInfo.long]}
       fillOpacity={0.4}
       pathOptions={{

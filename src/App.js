@@ -59,6 +59,10 @@ function App() {
         });
     };
 
+    getCountriesData();
+  }, []);
+
+  useEffect(() => {
     const getCountriesVaccinationData = async () => {
       await fetch(
         `https://disease.sh/v3/covid-19/vaccine/coverage/countries?` +
@@ -84,8 +88,7 @@ function App() {
     };
 
     getCountriesVaccinationData();
-    getCountriesData();
-  }, []);
+  }, [mapCountries]);
 
   const onCountryChange = async (event) => {
     const countryCode = event.target.value;
@@ -191,7 +194,7 @@ function App() {
             />
           )}
         </div>
-        {mapCountries && (
+        {fullMapCountries && (
           <Map
             countries={fullMapCountries}
             center={mapCenter}
