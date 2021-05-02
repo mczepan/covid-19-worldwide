@@ -26,3 +26,9 @@
   font-size: 0.8rem !important;
   margin-bottom: 15px !important;
 }
+
+@media (max-width: 990px) {
+  .infoBox:not(:last-child) {
+    margin-right: 0px;
+  }
+}

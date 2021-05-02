@@ -32,3 +32,9 @@
   font-size: 16px;
   margin-top: 5px;
 }
+
+@media (max-width: 990px) {
+  .map {
+    height: 400px;
+  }
+}
