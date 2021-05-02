@@ -4,13 +4,13 @@ import { Card, CardContent, Typography } from '@material-ui/core';
 import AnimatedNumber from 'react-animated-number';
 import { prettyPrintStat } from './util';
 
-const InfoBox = ({ title, cases, isRed, total, active, ...props }) => {
+const InfoBox = ({ title, cases, isRed, isBlack, total, active, ...props }) => {
   return (
     <Card
       style={{ cursor: title !== 'Vaccinated' ? 'pointer' : '' }}
       onClick={props.onClick}
       className={`infoBox ${active && 'infoBox--selected'} ${
-        isRed && 'infoBox--red'
+        isBlack ? 'infoBox--black' : isRed ? 'infoBox--red' : ''
       }`}
     >
       <CardContent>

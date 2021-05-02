@@ -12,6 +12,9 @@
 .infoBox--red {
   border-color: red;
 }
+.infoBox--black {
+  border-color: rgb(10, 10, 10);
+}
 
 .infoBox__cases {
   color: #0a0a0a;

@@ -43,6 +43,20 @@ function App() {
   }, []);
 
   useEffect(() => {
+    console.log(selectedCountry);
+    fetch(
+      `https://disease.sh/v3/covid-19/vaccine/coverage/countries/${selectedCountry}?` +
+        new URLSearchParams({
+          lastdays: 2,
+        })
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setSelectedCountryVaccinatedInfo(data);
+      });
+  }, [selectedCountry]);
+
+  useEffect(() => {
     const getCountriesData = async () => {
       await fetch('https://disease.sh/v3/covid-19/countries')
         .then((response) => response.json())
@@ -167,7 +181,7 @@ function App() {
             cases={selectedCountryInfo.todayRecovered}
           />
           <InfoBox
-            isRed
+            isBlack
             active={casesType === 'deaths'}
             onClick={(e) => setCasesType('deaths')}
             title="Deaths"
